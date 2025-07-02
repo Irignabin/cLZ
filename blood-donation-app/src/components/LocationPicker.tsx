@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { LatLng, Icon } from 'leaflet';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography, Paper, Alert } from '@mui/material';
 import 'leaflet/dist/leaflet.css';
 
 // Fix for default marker icon
@@ -61,11 +61,18 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
   onLocationSelect,
   initialLocation = { lat: 28.3949, lng: 84.1240 }, // Center of Nepal
 }) => {
-  return (
-    <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
-      <Typography variant="subtitle1" gutterBottom>
-        Click on the map to select your location
-      </Typography>
+  if (!initialLocation) {
+    return (
+      <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
+        <Typography variant="subtitle1" gutterBottom>
+          Location not available
+        </Typography>
+      </Paper>
+    );
+  }
+  let mapContent = null;
+  try {
+    mapContent = (
       <Box sx={{ height: 400, width: '100%', mt: 2 }}>
         <MapContainer
           center={[initialLocation.lat, initialLocation.lng]}
@@ -82,6 +89,18 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
           />
         </MapContainer>
       </Box>
+    );
+  } catch (err) {
+    mapContent = (
+      <Alert severity="error">Map failed to load. Please refresh the page.</Alert>
+    );
+  }
+  return (
+    <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
+      <Typography variant="subtitle1" gutterBottom>
+        Click on the map to select your location
+      </Typography>
+      {mapContent}
       <Typography variant="caption" color="textSecondary" sx={{ mt: 1, display: 'block' }}>
         You can zoom in/out using the mouse wheel and drag the map to find your exact location
       </Typography>

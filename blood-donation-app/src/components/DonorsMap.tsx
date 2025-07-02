@@ -67,6 +67,7 @@ const createCustomIcon = (iconType: keyof typeof iconPaths, color: string) => {
   });
 };
 
+// Defensive: Move custom icon creation outside the component to avoid recreation on every render
 const donorIcon = createCustomIcon('person', '#2196f3');
 const hospitalIcon = createCustomIcon('hospital', '#4caf50');
 const bloodBankIcon = createCustomIcon('bloodtype', '#f44336');
@@ -168,87 +169,91 @@ const DonorsMap = () => {
     );
   }
 
+  // Defensive: Only render MapContainer if userLocation is available
+  let mapContent = null;
+  try {
+    mapContent = (
+      <MapContainer
+        center={[userLocation.latitude, userLocation.longitude]}
+        zoom={13}
+        style={{ height: '100%', width: '100%' }}
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker
+          position={[userLocation.latitude, userLocation.longitude]}
+          icon={L.divIcon({
+            className: 'custom-marker',
+            html: '<div style="color: #1976d2; transform: scale(1.5);"><svg viewBox="0 0 24 24" style="width: 24px; height: 24px;"><path fill="currentColor" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+          })}
+        >
+          <Popup>You are here</Popup>
+        </Marker>
+        <Circle
+          center={[userLocation.latitude, userLocation.longitude]}
+          radius={radius * 1000}
+          pathOptions={{ color: '#1976d2', fillColor: '#1976d2', fillOpacity: 0.1 }}
+        />
+        {showDonors && donors.map((donor) => (
+          <Marker
+            key={donor.id}
+            position={[donor.latitude, donor.longitude]}
+            icon={donorIcon}
+          >
+            <Popup>
+              <Typography variant="subtitle2">{donor.name}</Typography>
+              <Typography variant="body2">Blood Type: {donor.blood_type}</Typography>
+              <Typography variant="body2">
+                Distance: {(donor.distance || 0).toFixed(1)}km
+              </Typography>
+            </Popup>
+          </Marker>
+        ))}
+        {showHospitals && hospitals.map((hospital) => (
+          <Marker
+            key={hospital.id}
+            position={[hospital.latitude, hospital.longitude]}
+            icon={hospitalIcon}
+          >
+            <Popup>
+              <Typography variant="subtitle2">{hospital.name}</Typography>
+              <Typography variant="body2">{hospital.address}</Typography>
+              <Typography variant="body2">
+                Distance: {(hospital.distance || 0).toFixed(1)}km
+              </Typography>
+            </Popup>
+          </Marker>
+        ))}
+        {showRequests && bloodRequests.map((request) => (
+          <Marker
+            key={request.id}
+            position={[request.latitude, request.longitude]}
+            icon={requestIcon}
+          >
+            <Popup>
+              <Typography variant="subtitle2">Emergency Request</Typography>
+              <Typography variant="body2">Blood Type: {request.blood_type}</Typography>
+              <Typography variant="body2">Distance: {(request.distance || 0).toFixed(1)}km</Typography>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    );
+  } catch (err) {
+    mapContent = (
+      <Alert severity="error">Map failed to load. Please refresh the page.</Alert>
+    );
+  }
+
   return (
     <Box sx={{ height: 'calc(100vh - 64px)', display: 'flex' }}>
       {/* Left side - Map */}
       <Box sx={{ width: '50%', position: 'relative' }}>
-        <MapContainer
-          center={[userLocation.latitude, userLocation.longitude]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
-        >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          
-          {/* User's location */}
-          <Marker
-            position={[userLocation.latitude, userLocation.longitude]}
-            icon={L.divIcon({
-              className: 'custom-marker',
-              html: '<div style="color: #1976d2; transform: scale(1.5);"><svg viewBox="0 0 24 24" style="width: 24px; height: 24px;"><path fill="currentColor" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0 0 13 3.06V1h-2v2.06A8.994 8.994 0 0 0 3.06 11H1v2h2.06A8.994 8.994 0 0 0 11 20.94V23h2v-2.06A8.994 8.994 0 0 0 20.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg></div>',
-              iconSize: [24, 24],
-              iconAnchor: [12, 12],
-            })}
-          >
-            <Popup>You are here</Popup>
-          </Marker>
-
-          {/* Search radius circle */}
-          <Circle
-            center={[userLocation.latitude, userLocation.longitude]}
-            radius={radius * 1000}
-            pathOptions={{ color: '#1976d2', fillColor: '#1976d2', fillOpacity: 0.1 }}
-          />
-
-          {/* Markers */}
-          {showDonors && donors.map((donor) => (
-            <Marker
-              key={donor.id}
-              position={[donor.latitude, donor.longitude]}
-              icon={donorIcon}
-            >
-              <Popup>
-                <Typography variant="subtitle2">{donor.name}</Typography>
-                <Typography variant="body2">Blood Type: {donor.blood_type}</Typography>
-                <Typography variant="body2">
-                  Distance: {(donor.distance || 0).toFixed(1)}km
-                </Typography>
-              </Popup>
-            </Marker>
-          ))}
-
-          {showHospitals && hospitals.map((hospital) => (
-            <Marker
-              key={hospital.id}
-              position={[hospital.latitude, hospital.longitude]}
-              icon={hospitalIcon}
-            >
-              <Popup>
-                <Typography variant="subtitle2">{hospital.name}</Typography>
-                <Typography variant="body2">{hospital.address}</Typography>
-                <Typography variant="body2">
-                  Distance: {(hospital.distance || 0).toFixed(1)}km
-                </Typography>
-              </Popup>
-            </Marker>
-          ))}
-
-          {showRequests && bloodRequests.map((request) => (
-            <Marker
-              key={request.id}
-              position={[request.latitude, request.longitude]}
-              icon={requestIcon}
-            >
-              <Popup>
-                <Typography variant="subtitle2">Emergency Request</Typography>
-                <Typography variant="body2">Blood Type: {request.blood_type}</Typography>
-                <Typography variant="body2">Distance: {(request.distance || 0).toFixed(1)}km</Typography>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+        {mapContent}
       </Box>
 
       {/* Right side - Search and Results */}
