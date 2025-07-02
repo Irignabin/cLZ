@@ -31,14 +31,13 @@ class Hospital extends Model
 
     public function scopeNearby($query, $latitude, $longitude, $radius = 10)
     {
-        $haversine = "(6371 * acos(cos(radians($latitude)) 
-                     * cos(radians(latitude)) 
-                     * cos(radians(longitude) - radians($longitude)) 
-                     + sin(radians($latitude)) 
-                     * sin(radians(latitude))))";
+        // Simple distance calculation using the Pythagorean theorem
+        // This is an approximation that works well for small distances
+        $distanceCalc = "((latitude - $latitude) * (latitude - $latitude) + 
+                         (longitude - $longitude) * (longitude - $longitude)) * 111.319 * 111.319";
         
-        return $query->selectRaw("*, $haversine AS distance")
-                    ->having('distance', '<=', $radius)
-                    ->orderBy('distance');
+        return $query->selectRaw("*, $distanceCalc AS distance")
+                    ->orderByRaw($distanceCalc)
+                    ->whereRaw("$distanceCalc <= ?", [$radius]);
     }
 } 

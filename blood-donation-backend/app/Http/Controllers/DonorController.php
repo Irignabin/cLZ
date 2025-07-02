@@ -93,9 +93,14 @@ class DonorController extends Controller
         ]);
 
         $radius = $request->input('radius', 10); // Default 10km
-        $radiusInMeters = $radius * 1000;
+        $lat = $request->latitude;
+        $lon = $request->longitude;
 
         try {
+            // Calculate distance in kilometers using the Pythagorean theorem
+            // 111.319 is the conversion factor from degrees to kilometers at the equator
+            $distanceCalc = "ROUND(SQRT(POW((latitude - $lat) * 111.319, 2) + POW((longitude - $lon) * 111.319, 2)), 1)";
+
             $query = User::where('is_donor', true)
                 ->where('available_to_donate', true)
                 ->whereNotNull('latitude')
@@ -107,21 +112,18 @@ class DonorController extends Controller
 
             $donors = $query->select([
                 '*',
-                DB::raw("(
-                    6371 * acos(
-                        cos(radians({$request->latitude})) * 
-                        cos(radians(latitude)) * 
-                        cos(radians(longitude) - radians({$request->longitude})) + 
-                        sin(radians({$request->latitude})) * 
-                        sin(radians(latitude))
-                    ) * 1000
-                ) as distance")
+                DB::raw("$distanceCalc as distance")
             ])
-            ->having('distance', '<=', $radiusInMeters)
+            ->having('distance', '<=', $radius)
             ->orderBy('distance')
             ->get();
 
-            return response()->json($donors);
+            return response()->json([
+                'data' => $donors,
+                'total' => $donors->count(),
+                'radius' => $radius,
+                'message' => $donors->count() === 0 ? 'No donors available within ' . $radius . 'km radius' : null
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Failed to fetch nearby donors',
@@ -159,35 +161,29 @@ class DonorController extends Controller
         ]);
 
         $radius = $request->input('radius', 10);
-        $radiusInMeters = $radius * 1000;
+        $lat = $request->latitude;
+        $lon = $request->longitude;
+
+        // Calculate distance in kilometers using the Pythagorean theorem
+        // 111.319 is the conversion factor from degrees to kilometers at the equator
+        $distanceCalc = "ROUND(SQRT(POW((latitude - $lat) * 111.319, 2) + POW((longitude - $lon) * 111.319, 2)), 1)";
 
         $donors = User::where('is_donor', true)
             ->where('available_to_donate', true)
             ->where('blood_type', $request->blood_type)
-            ->whereRaw("
-                ST_Distance_Sphere(
-                    point(longitude, latitude),
-                    point(?, ?)
-                ) <= ?
-            ", [
-                $request->longitude,
-                $request->latitude,
-                $radiusInMeters
-            ])
+            ->whereRaw("SQRT(POW((latitude - ?) * 111.319, 2) + POW((longitude - ?) * 111.319, 2)) <= ?", [$lat, $lon, $radius])
             ->select([
                 '*',
-                DB::raw("ST_Distance_Sphere(
-                    point(longitude, latitude),
-                    point({$request->longitude}, {$request->latitude})
-                ) as distance")
+                DB::raw("$distanceCalc as distance")
             ])
-            ->orderBy('distance')
+            ->orderBy(DB::raw($distanceCalc))
             ->get();
 
         return response()->json([
             'donors' => $donors,
             'total' => $donors->count(),
-            'radius' => $radius
+            'radius' => $radius,
+            'message' => $donors->count() === 0 ? 'No donors available within ' . $radius . 'km radius' : null
         ]);
     }
 
