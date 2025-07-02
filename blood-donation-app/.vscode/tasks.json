@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Backend",
+            "type": "shell",
+            "command": "cd ${workspaceFolder}/../blood-donation-backend && php artisan serve --port=8000",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Frontend",
+            "type": "shell",
+            "command": "cd ${workspaceFolder} && npm start",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Start All",
+            "dependsOn": ["Start Backend", "Start Frontend"],
+            "problemMatcher": []
+        }
+    ]
+} 
