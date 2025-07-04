@@ -337,7 +337,7 @@ const Dashboard: React.FC = () => {
             </Box>
           ) : (
             <Typography variant="body1" color="text.secondary" align="center">
-              No recent activity to display
+              There is no recent activity to display at this time.
             </Typography>
           )}
         </CardContent>
