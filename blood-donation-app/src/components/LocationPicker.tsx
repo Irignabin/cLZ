@@ -59,7 +59,7 @@ const LocationMarker: React.FC<{
 
 const LocationPicker: React.FC<LocationPickerProps> = ({
   onLocationSelect,
-  initialLocation = { lat: 28.3949, lng: 84.1240 }, // Center of Nepal
+  initialLocation = { lat: 29.3949, lng: 86.1240 }, // Center of Nepal
 }) => {
   if (!initialLocation) {
     return (
