@@ -40,21 +40,7 @@ const LocationMarker: React.FC<{
     }
   }, [initialLocation, map]);
 
-  return position === null ? null : (
-    <Marker 
-      position={position} 
-      draggable={true}
-      eventHandlers={{
-        dragend: (event) => {
-          const marker = event.target;
-          const latlng = marker.getLatLng();
-          setPosition(latlng);
-          onLocationSelect(latlng.lat, latlng.lng);
-        },
-      }}
-    >
-    </Marker>
-  );
+
 };
 
 const LocationPicker: React.FC<LocationPickerProps> = ({
