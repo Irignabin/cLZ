@@ -210,4 +210,20 @@ class AuthController extends Controller
             ], 500);
         }
     }
+
+    public function validateToken(Request $request)
+    {
+        try {
+            $user = $request->user();
+            return response()->json([
+                'valid' => true,
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Invalid token'
+            ], 401);
+        }
+    }
 } 

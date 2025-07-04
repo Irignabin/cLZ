@@ -76,7 +76,7 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
       <Box sx={{ height: 400, width: '100%', mt: 2 }}>
         <MapContainer
           center={[initialLocation.lat, initialLocation.lng]}
-          zoom={7}
+          zoom={15}
           style={{ height: '100%', width: '100%' }}
         >
           <TileLayer

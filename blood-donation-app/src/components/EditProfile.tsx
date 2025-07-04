@@ -32,6 +32,7 @@ const EditProfile: React.FC = () => {
     phone: user?.phone || '',
     blood_type: user?.blood_type || '',
     address: user?.address || '',
+    city: user?.city || '',
     is_donor: user?.is_donor || false,
     available_to_donate: user?.available_to_donate || false,
   });
@@ -156,6 +157,16 @@ const EditProfile: React.FC = () => {
             label="Address"
             name="address"
             value={formData.address}
+            onChange={handleTextChange}
+          />
+
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            label="City"
+            name="city"
+            value={formData.city}
             onChange={handleTextChange}
           />
 

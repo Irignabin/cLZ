@@ -234,26 +234,24 @@ function extractData<T>(response: ApiResponse<T> | T): T {
 const authService = {
     async login(data: LoginData): Promise<AuthResponse> {
         try {
-            console.log('Sending login request:', data);
             const response = await api.post<AuthResponse>('/login', data);
-            console.log('Login response:', response.data);
-            
-            const { user, token, message } = response.data;
-            
+            // Defensive: handle both possible shapes
+            const res = response.data;
+            const user = res.user || ((res as any).data?.user);
+            const token = res.token || ((res as any).data?.token);
+            const message = res.message || ((res as any).data?.message);
+
             if (!token || !user) {
-                console.error('Invalid login response:', response.data);
                 throw new Error(message || 'Invalid response from server');
             }
 
-            // Set token in axios headers immediately
             api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            return response.data;
+            return { user, token, message };
         } catch (error: any) {
-            console.error('Login error:', error.response?.data || error);
-            const errorMessage = error.response?.data?.message || 
-                               (error.response?.data?.errors && Object.values(error.response.data.errors).flat()[0]) || 
-                               error.message || 
-                               'Failed to login';
+            const errorMessage = error.response?.data?.message ||
+                (error.response?.data?.errors && Object.values(error.response.data.errors).flat()[0]) ||
+                error.message ||
+                'Failed to login';
             throw new Error(errorMessage);
         }
     },
