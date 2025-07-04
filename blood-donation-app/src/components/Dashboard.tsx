@@ -301,47 +301,7 @@ const Dashboard: React.FC = () => {
         </Card>
       )}
 
-      {/* Recent Activity */}
-      <Card sx={{ borderRadius: 3 }}>
-        <CardContent>
-          <Typography variant="h6" sx={{ mb: 3, fontWeight: 'bold' }}>
-            Recent Activity
-          </Typography>
-          {recentActivity.length > 0 ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {recentActivity.map((activity, index) => (
-                <React.Fragment key={activity.id}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Avatar sx={{ bgcolor: '#dc262610', color: '#dc2626' }}>
-                        <BloodtypeIcon />
-                      </Avatar>
-                      <Box>
-                        <Typography variant="subtitle1" sx={{ fontWeight: 500 }}>
-                          {activity.type}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {activity.location} • {new Date(activity.date).toLocaleDateString()}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Chip
-                      label={activity.status}
-                      color={activity.status === 'Completed' ? 'success' : 'primary'}
-                      size="small"
-                    />
-                  </Box>
-                  {index < recentActivity.length - 1 && <Divider />}
-                </React.Fragment>
-              ))}
-            </Box>
-          ) : (
-            <Typography variant="body1" color="text.secondary" align="center">
-              No recent activity to display
-            </Typography>
-          )}
-        </CardContent>
-      </Card>
+
     </Container>
   );
 };
