@@ -206,7 +206,7 @@ const Login: React.FC = () => {
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
         <Alert severity="success" sx={{ width: '100%' }}>
-          Login successful! Redirecting...
+          Login successful! 
         </Alert>
       </Snackbar>
     </Box>
