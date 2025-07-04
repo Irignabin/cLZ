@@ -151,7 +151,7 @@ const Login: React.FC = () => {
                     <Checkbox
                       checked={rememberMe}
                       onChange={handleRememberMeChange}
-                      color="primary"
+                      color="secondary"
                     />
                   }
                   label="Remember me"
@@ -163,7 +163,7 @@ const Login: React.FC = () => {
                   to="/forgot-password"
                   sx={{ color: '#dc2626' }}
                 >
-                  Forgot password?
+                  Forgot your password?
                 </Link>
               </Grid>
             </Grid>
