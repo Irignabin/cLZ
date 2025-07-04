@@ -163,7 +163,7 @@ const DonorsMap = () => {
     return (
       <Box sx={{ p: 2 }}>
         <Alert severity="warning">
-          Please enable location services to view the map
+          Location access is required to display the donor map. Please enable location services in your browser settings.
         </Alert>
       </Box>
     );
