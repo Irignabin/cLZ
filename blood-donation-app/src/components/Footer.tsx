@@ -200,7 +200,33 @@ const Footer: React.FC = () => {
           <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>
             © {new Date().getFullYear()} Smart Blood Bank. All rights reserved.
           </Typography>
-
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 3
+            }}
+          >
+            <MuiLink
+              href="#"
+              sx={{
+                color: 'rgba(255,255,255,0.7)',
+                textDecoration: 'none',
+                '&:hover': { color: '#dc2626' }
+              }}
+            >
+              Privacy Policy
+            </MuiLink>
+            <MuiLink
+              href="#"
+              sx={{
+                color: 'rgba(255,255,255,0.7)',
+                textDecoration: 'none',
+                '&:hover': { color: '#dc2626' }
+              }}
+            >
+              Terms of Service
+            </MuiLink>
+          </Box>
         </Box>
       </Container>
     </Box>
