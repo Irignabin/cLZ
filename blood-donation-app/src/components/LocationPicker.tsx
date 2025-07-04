@@ -71,7 +71,30 @@ const LocationPicker: React.FC<LocationPickerProps> = ({
     );
   }
   let mapContent = null;
-
+  try {
+    mapContent = (
+      <Box sx={{ height: 400, width: '100%', mt: 2 }}>
+        <MapContainer
+          center={[initialLocation.lat, initialLocation.lng]}
+          zoom={15}
+          style={{ height: '100%', width: '100%' }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <LocationMarker
+            onLocationSelect={onLocationSelect}
+            initialLocation={initialLocation}
+          />
+        </MapContainer>
+      </Box>
+    );
+  } catch (err) {
+    mapContent = (
+      <Alert severity="error">Map failed to load. Please refresh the page.</Alert>
+    );
+  }
   return (
     <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
       <Typography variant="subtitle1" gutterBottom>
