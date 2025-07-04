@@ -151,7 +151,7 @@ const Profile: React.FC = () => {
                   }
                 }}
               >
-                Edit Profile
+                Edit your profile
               </Button>
             </Box>
           </Paper>
