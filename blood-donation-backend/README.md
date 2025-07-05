@@ -110,11 +110,11 @@ You can test APIs using Postman or any REST client.
 
 | Method | Endpoint                  | Description                          | Auth |
 |--------|---------------------------|--------------------------------------|------|
-| GET    | `/api/donors/nearby`      | Get donors within selected radius    | ✅   |
+| GET    | `/api/donors/nearby`      | Get donors within selected radius    | ❌   |
 | POST   | `/api/donors/register`    | Register a new blood donor           | ❌   |
 | POST   | `/api/request`            | Request blood from nearby donors     | ✅   |
 | GET    | `/api/user`               | Get current authenticated user       | ✅   |
-| GET    | `/api/requests`           | List blood requests                  | ✅   |
+| GET    | `/api/requests`           | List blood requests                  | ❌   |
 | POST   | `/api/login`              | Authenticate and receive token       | ❌   |
 | POST   | `/api/logout`             | Revoke token and logout              | ✅   |
 
