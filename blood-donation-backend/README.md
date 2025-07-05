@@ -8,16 +8,22 @@ This Laravel-based RESTful API allows users to register as blood donors, request
 
 ## 📌 Table of Contents
 
-- [Features](#-features)
-- [Tech Stack](#-tech-stack)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [Database Setup](#-database-setup)
-- [Running the App](#-running-the-app)
-- [API Overview](#-api-overview)
-- [Future Enhancements](#-future-enhancements)
-- [Contributing](#-contributing)
-- [License](#-license)
+- [🩸 Smart Blood Bank – Blood Donation Backend](#-smart-blood-bank--blood-donation-backend)
+  - [📌 Table of Contents](#-table-of-contents)
+  - [✨ Features](#-features)
+  - [🛠️ Tech Stack](#️-tech-stack)
+  - [🚀 Getting Started](#-getting-started)
+    - [1. Clone the repository](#1-clone-the-repository)
+    - [2. Install dependencies](#2-install-dependencies)
+    - [3. Set up environment file](#3-set-up-environment-file)
+    - [4. Update `.env` with your database credentials:](#4-update-env-with-your-database-credentials)
+  - [🗃️ Database Setup](#️-database-setup)
+  - [🧪 Running the App](#-running-the-app)
+  - [📡 API Overview](#-api-overview)
+  - [🧠 Future Enhancements](#-future-enhancements)
+  - [🤝 Contributing](#-contributing)
+  - [🪪 License](#-license)
+  - [💌 Credits](#-credits)
 
 ---
 
@@ -81,6 +87,19 @@ DB_DATABASE=blood_bank
 DB_USERNAME=root
 DB_PASSWORD=
 ```
+
+📚 Additional Documentation
+
+For more detailed developer guides and setup instructions, see the following:
+
+- [Setup Guide](./docs/setup.md)
+- [Architecture Overview](./docs/architecture.md)
+- [Authentication Details](./docs/authentication.md)
+- [Contribution Guidelines](./docs/contribution.md)
+- [FAQ](./docs/faq.md)
+
+API reference and interactive docs are auto-generated with Scramble and available at:
+[http://localhost:8000/docs/api](http://localhost:8000/docs/api)
 
 ---
 
