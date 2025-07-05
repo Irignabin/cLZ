@@ -1,61 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🩸 Smart Blood Bank – Blood Donation Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Welcome to the backend system of **Smart Blood Bank**, an intelligent platform built to bridge the gap between blood donors and recipients using real-time geolocation, secure APIs, and powerful search capabilities.
 
-## About Laravel
+This Laravel-based RESTful API allows users to register as blood donors, request blood based on urgency and location, and manage data securely with role-based access.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📌 Table of Contents
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Environment Variables](#-environment-variables)
+- [Database Setup](#-database-setup)
+- [Running the App](#-running-the-app)
+- [API Overview](#-api-overview)
+- [Future Enhancements](#-future-enhancements)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ✨ Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- 🔍 **Geographic Donor Search** – Find eligible donors within 1–50km radius
+- 📍 **Live Location Tracking** – Store and use donor's geolocation (lat/lng)
+- 🩸 **Blood Request System** – Raise and manage urgent blood requests
+- 🔐 **Token-Based Auth** – Secure access using Laravel Sanctum
+- 📬 **Email Notifications** – Notify donors when a matching request is made
+- 🧾 **Role Management** – Differentiate between donors, hospitals, admins
+- 📊 **Analytics-Ready APIs** – Filter by blood type, location, and status
+- 📦 **Modular Design** – Clean code, reusable services, scalable structure
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Laravel 11+
+- PHP 8.2+
+- MySQL / MariaDB
+- Sanctum – for API authentication
+- Laravel Notifications
+- Eloquent ORM
+- GeoSearch (Haversine Formula)
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Getting Started
 
-## Contributing
+### 1. Clone the repository
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone https://github.com/your-username/blood-donation-backend.git
+cd blood-donation-backend
+```
 
-## Code of Conduct
+### 2. Install dependencies
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install
+```
 
-## Security Vulnerabilities
+### 3. Set up environment file
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-## License
+### 4. Update `.env` with your database credentials:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```dotenv
+APP_NAME=Smart Blood Bank
+APP_URL=http://localhost:8000
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=blood_bank
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+---
+
+## 🗃️ Database Setup
+
+Run migrations and optionally seed default roles or users:
+
+```bash
+php artisan migrate --seed
+```
+
+---
+
+## 🧪 Running the App
+
+```bash
+php artisan serve
+```
+
+Your backend is now running at `http://127.0.0.1:8000`.
+
+You can test APIs using Postman or any REST client.
+
+---
+
+## 📡 API Overview
+
+| Method | Endpoint                  | Description                          | Auth |
+|--------|---------------------------|--------------------------------------|------|
+| GET    | `/api/donors/nearby`      | Get donors within selected radius    | ✅   |
+| POST   | `/api/donors/register`    | Register a new blood donor           | ❌   |
+| POST   | `/api/request`            | Request blood from nearby donors     | ✅   |
+| GET    | `/api/user`               | Get current authenticated user       | ✅   |
+| GET    | `/api/requests`           | List blood requests                  | ✅   |
+| POST   | `/api/login`              | Authenticate and receive token       | ❌   |
+| POST   | `/api/logout`             | Revoke token and logout              | ✅   |
+
+> Full API documentation available in the `/docs` folder or [Postman collection](#) (optional link)
+
+---
+
+## 🧠 Future Enhancements
+
+- 🤖 AI-based donor availability prediction
+- 📱 Mobile app integration (React Native / Flutter)
+- 📍 Real-time map view with donor pins
+- 🕵️‍♂️ Fraud detection & donor verification
+- 🧾 Blood bank certification and document uploads
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions from the community!
+
+1. Fork the repository
+2. Create your feature branch: `git checkout -b feature/your-feature-name`
+3. Commit your changes: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature/your-feature-name`
+5. Open a pull request
+
+> Please make sure to run tests and follow coding conventions.
+
+---
+
+## 🪪 License
+
+This project is licensed under the MIT License.  
+Feel free to use it, improve it, and contribute back!
+
+---
+
+## 💌 Credits
+
+Maintained with ❤️ by [Neon, Nabin, Bishal]
