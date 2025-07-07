@@ -53,8 +53,8 @@ class UserController extends Controller
         }
 
         return response()->json([
-            'totalDonations' => $totalDonations,
-            'lastDonationDate' => $lastDonationDate,
+            'totalDonations' => $totalDonations ,
+            'lastDonationDate' => $lastDonationDate ,
             'livesImpacted' => $livesImpacted,
             'nearbyRequests' => $nearbyRequests,
             'nearbyDonors' => $nearbyDonors
