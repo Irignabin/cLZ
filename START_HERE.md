@@ -1,6 +1,6 @@
 # How to Start the Blood Donation System
 
-## Step 1: Start XAMPP
+## Step 1:   Start XAMPP
 1. Open XAMPP Control Panel
    - Double click on XAMPP icon on desktop or
    - Run: C:\xampp\xampp-control.exe
