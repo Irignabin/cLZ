@@ -64,7 +64,7 @@ class UserController extends Controller
     public function getDashboardActivity(Request $request)
     {
         $user = $request->user();
-        $activities = [];
+        $activities = [] ;
 
         // Get user's blood requests
         $requests = BloodRequest::where('user_id', $user->id)
