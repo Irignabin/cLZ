@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS blood_donation_db;
 USE blood_donation_db;
 
--- Users Table
+-- Users    Table
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
