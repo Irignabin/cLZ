@@ -7,7 +7,7 @@
 2. Start Apache and MySQL
    - Click "Start" button next to Apache
    - Click "Start" button next to MySQL
-3. Wait until both show green status
+3. Wait until both show green  status
 
 ## Step 2: Start Laravel Backend
 1. Open Command Prompt as Administrator
