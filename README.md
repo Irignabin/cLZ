@@ -5,7 +5,7 @@ Smart Blood Bank is a full-stack application designed to help users find nearby 
 This repository contains two main parts:
 
 - **backend/** — Laravel API backend
-- **frontend/** — Frontend application (React, Vue, Next.js, or your choice)
+- **frontend/** — Frontend application (React)
 
 ---
 
@@ -58,7 +58,7 @@ Navigate to frontend folder and install dependencies:
 ```bash
 cd frontend
 npm install
-npm run dev
+npm run start
 # or
 yarn dev
 ```
