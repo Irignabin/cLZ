@@ -67,6 +67,7 @@ const BecomeDonor: React.FC = () => {
   const initialValues: DonorFormData = {
     name: user?.name || '',
     phone: user?.phone || '',
+    email: user?.email || '',
     blood_type: user?.blood_type || '',
     address: user?.address || '',
     city: user?.city || '',
@@ -77,6 +78,8 @@ const BecomeDonor: React.FC = () => {
     medical_conditions: [],
     medications: '',
     agreement: false,
+    latitude: user?.latitude || 24,
+    longitude: user?.longitude || 83,
     health_status: ''
   };
 

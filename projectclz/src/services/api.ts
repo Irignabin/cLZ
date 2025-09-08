@@ -65,6 +65,7 @@ interface ProfileUpdateData {
 interface DonorFormData {
     name: string;
     phone: string;
+    email: string;
     blood_type: string;
     address: string;
     city: string;
@@ -76,6 +77,8 @@ interface DonorFormData {
     medical_conditions: string[];
     medications: string;
     agreement: boolean;
+    latitude: number;
+    longitude: number;
     health_status: string;
 }
 

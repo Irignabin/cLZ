@@ -3,13 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DonorController;
-use App\Http\Controllers\Auth\AuthController;
+// use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BloodRequestController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\HospitalController;
 use App\Http\Controllers\BloodBankController;
 use App\Http\Controllers\Api\LocationController as ApiLocationController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,12 @@ use App\Http\Controllers\UserController;
 // Auth routes
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/login', function(){
+    return response()->json([
+        'status' => "Authentication required",
+        'message' => "Needs client side login to access this route"
+    ], 403);
+});
 
 // Public search routes
 Route::get('/donors/nearby', [DonorController::class, 'search']);
