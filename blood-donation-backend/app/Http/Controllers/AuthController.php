@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -97,6 +98,45 @@ class AuthController extends Controller
         return response()->json([
             'user' => $request->user()
         ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            $user = $request->user();
+            $data = $request->validate([
+                'name' => 'string|max:255',
+                'blood_type' => 'string|max:5',
+                'phone' => 'string|max:20',
+                'address' => 'string|max:255',
+                'city' => 'string|max:255',
+                'is_donor' => 'boolean',
+                'available_to_donate' => 'boolean',
+            ]);
+            
+            $user->update($data);
+            
+            return response()->json([
+                'data' => [
+                    'user' => $user
+                ],
+                'message' => 'Profile updated successfully',
+                'status' => 200
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'data' => null,
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+                'status' => 422
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'data' => null,
+                'message' => 'An error occurred while updating profile.',
+                'status' => 500
+            ], 500);
+        }
     }
 
     public function validateToken(Request $request)

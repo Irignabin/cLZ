@@ -27,7 +27,7 @@ Route::get('/login', function(){
         'status' => "Authentication required",
         'message' => "Needs client side login to access this route"
     ], 403);
-});
+})->name('login');
 
 // Public search routes
 Route::get('/donors/nearby', [DonorController::class, 'search']);
