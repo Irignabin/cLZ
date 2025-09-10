@@ -16,7 +16,14 @@ import {
   ListItemText,
   useMediaQuery,
   useTheme,
-  Fade
+  Fade,
+  useColorScheme,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Switch
 } from '@mui/material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -34,6 +41,7 @@ const Header: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { mode, setMode } = useColorScheme();
 
   const handleLogout = async () => {
     try {
@@ -64,7 +72,7 @@ const Header: React.FC = () => {
   const getNavItems = () => {
     const items = [
       { label: 'Home', path: '/' },
-      { label: 'Search Donors', path: '/search-donors' }
+      { label: 'Donors', path: '/search-donors' }
     ];
 
     if (user) {
@@ -209,10 +217,12 @@ const Header: React.FC = () => {
     </Drawer>
   );
 
+  const labelThemeColor = { inputProps: { 'aria-label': 'Switch demo' } };
+
   return (
-    <AppBar 
-      position="sticky" 
-      sx={{ 
+    <AppBar
+      position="sticky"
+      sx={{
         backgroundColor: '#dc2626',
         boxShadow: 'none',
         borderBottom: '1px solid rgba(255,255,255,0.1)'
@@ -220,11 +230,11 @@ const Header: React.FC = () => {
     >
       <Container maxWidth="lg">
         <Toolbar sx={{ px: { xs: 0 }, minHeight: '70px' }}>
-          <Box 
-            component={Link} 
+          <Box
+            component={Link}
             to="/"
-            sx={{ 
-              display: 'flex', 
+            sx={{
+              display: 'flex',
               alignItems: 'center',
               textDecoration: 'none',
               color: 'white'
@@ -250,7 +260,7 @@ const Header: React.FC = () => {
               ))}
             </Box>
           )}
-          
+
           <Box sx={{ flexGrow: 1 }} />
 
           {user && (
@@ -266,9 +276,9 @@ const Header: React.FC = () => {
                     gap: 1
                   }}
                 >
-                  <Avatar 
-                    sx={{ 
-                      width: 32, 
+                  <Avatar
+                    sx={{
+                      width: 32,
                       height: 32,
                       bgcolor: 'rgba(255,255,255,0.2)',
                       color: 'white'
@@ -336,6 +346,15 @@ const Header: React.FC = () => {
               <MenuIcon />
             </IconButton>
           )}
+
+          <div className="switch-container" style={  { display: 'flex', alignItems: 'center', gap: '0px' }}>
+
+            <Switch {...labelThemeColor} color='secondary' onClick={()=>setMode(mode == 'dark' ? 'light' : 'dark')}/>
+            <p className="text-content">{mode == 'dark' ? 'Dark' : 'Light'} Mode</p>
+            
+          </div>
+
+
         </Toolbar>
       </Container>
       {mobileDrawer}

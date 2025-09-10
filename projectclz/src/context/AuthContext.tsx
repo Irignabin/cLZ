@@ -13,6 +13,8 @@ interface AuthContextType {
   token: string | null;
   initializing: boolean;
   error: string | null;
+  color: "dark" | "light";
+  setColor: React.Dispatch<React.SetStateAction<"dark" | "light">>;
   login: (email: string, password: string) => Promise<void>;
   register: (data: {
     name: string;
@@ -57,6 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
   const [initializing, setInitializing] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [color, setColor] = useState<"dark" | "light">("dark");
 
   // Helper function to set up auth state
   const setupAuthState = useCallback((userData: User, newToken: string) => {
@@ -265,6 +268,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     token,
     initializing,
     error,
+    color,
+    setColor,
     login,
     register,
     logout,
